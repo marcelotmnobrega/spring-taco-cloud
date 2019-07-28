@@ -53,12 +53,14 @@ public class DesignTacoController {
 
     @GetMapping
     public String showDesignForm(Model model) {
-        model.addAttribute("design", new Taco());
+        if (!model.containsAttribute("design")) {
+            model.addAttribute("design", new Taco());
+        }
         return "design";
     }
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model) {
+    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors) {
         if (errors.hasErrors()) {
             return "design";
         }
