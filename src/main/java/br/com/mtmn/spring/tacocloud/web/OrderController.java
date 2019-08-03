@@ -2,7 +2,7 @@ package br.com.mtmn.spring.tacocloud.web;
 
 import javax.validation.Valid;
 
-import br.com.mtmn.spring.tacocloud.domain.Order;
+import br.com.mtmn.spring.tacocloud.core.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;

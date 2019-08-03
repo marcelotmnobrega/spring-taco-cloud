@@ -1,4 +1,4 @@
-package br.com.mtmn.spring.tacocloud.domain;
+package br.com.mtmn.spring.tacocloud.core;
 
 import java.util.Date;
 import java.util.List;

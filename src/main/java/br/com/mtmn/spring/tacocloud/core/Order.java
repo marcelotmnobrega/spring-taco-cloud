@@ -1,4 +1,4 @@
-package br.com.mtmn.spring.tacocloud.domain;
+package br.com.mtmn.spring.tacocloud.core;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;

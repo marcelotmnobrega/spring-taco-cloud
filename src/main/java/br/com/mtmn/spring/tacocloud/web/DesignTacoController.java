@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import br.com.mtmn.spring.tacocloud.domain.*;
-import br.com.mtmn.spring.tacocloud.domain.Ingredient.Type;
+import br.com.mtmn.spring.tacocloud.core.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,21 +36,15 @@ public class DesignTacoController {
         return new Taco();
     }
 
-//    private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
-//        return ingredients.stream()
-//                .filter(i -> i.getType().equals(type))
-//                .collect(Collectors.toList());
-//    }
-
     @GetMapping
     public String showDesignForm(Model model) {
 
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(ingredients::add);
 
-        Map<String, List<Ingredient>> collect =
-                ingredients.stream().collect(Collectors.groupingBy(i -> i.getType().toString().toLowerCase()));
-        model.addAllAttributes(collect);
+        Map<String, List<Ingredient>> ingredientByType =
+                ingredients.stream().collect(Collectors.groupingBy(ing -> ing.getType().toString().toLowerCase()));
+        model.addAllAttributes(ingredientByType);
         model.addAttribute("design", new Taco());
         return "design";
     }
