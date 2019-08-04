@@ -1,10 +1,11 @@
-package br.com.mtmn.spring.tacocloud.core;
+package br.com.mtmn.spring.tacocloud.taco;
 
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Arrays;
 import java.util.Date;
 
+import br.com.mtmn.spring.tacocloud.ingredient.Ingredient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class JdbcTacoRepository implements TacoRepository {
+public class TacoRepositoryJdbc implements TacoRepository {
 
     private final JdbcTemplate jdbc;
 

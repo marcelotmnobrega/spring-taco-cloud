@@ -1,8 +1,10 @@
-package br.com.mtmn.spring.tacocloud.core;
+package br.com.mtmn.spring.tacocloud.order;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import br.com.mtmn.spring.tacocloud.taco.Taco;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import lombok.Data;
 
@@ -32,4 +34,7 @@ public class Order {
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
+    public void addDesign(Taco saved) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

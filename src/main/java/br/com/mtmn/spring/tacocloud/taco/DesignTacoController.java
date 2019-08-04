@@ -1,11 +1,14 @@
-package br.com.mtmn.spring.tacocloud.web;
+package br.com.mtmn.spring.tacocloud.taco;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import br.com.mtmn.spring.tacocloud.core.*;
+import br.com.mtmn.spring.tacocloud.taco.*;
+import br.com.mtmn.spring.tacocloud.ingredient.Ingredient;
+import br.com.mtmn.spring.tacocloud.ingredient.IngredientRepository;
+import br.com.mtmn.spring.tacocloud.order.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,19 +48,21 @@ public class DesignTacoController {
         Map<String, List<Ingredient>> ingredientByType =
                 ingredients.stream().collect(Collectors.groupingBy(ing -> ing.getType().toString().toLowerCase()));
         model.addAllAttributes(ingredientByType);
-        model.addAttribute("design", new Taco());
+        model.addAttribute("taco", new Taco());
         return "design";
     }
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, @ModelAttribute Order order) {
+    public String processDesign(@Valid @ModelAttribute("taco") Taco taco,
+                                Errors errors,
+                                @ModelAttribute Order order) {
 
         if (errors.hasErrors()) {
             return "design";
         }
-        log.info("Processing design: " + design);
-        Taco saved = tacoRepository.save(design);
-//        order.addDesign(saved);
+        log.info("Processing design: " + taco);
+        Taco saved = tacoRepository.save(taco);
+        order.addDesign(saved);
 
         return "redirect:/orders/current";
     }

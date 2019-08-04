@@ -1,4 +1,4 @@
-package br.com.mtmn.spring.tacocloud.core;
+package br.com.mtmn.spring.tacocloud.ingredient;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 @RequiredArgsConstructor
 @Repository
-public class JdbcIngredientRepository implements IngredientRepository {
+public class IngredientRepositoryJdbc implements IngredientRepository {
 
     private final JdbcTemplate jdbc;
 

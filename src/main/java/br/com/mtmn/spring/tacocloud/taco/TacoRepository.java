@@ -1,4 +1,4 @@
-package br.com.mtmn.spring.tacocloud.core;
+package br.com.mtmn.spring.tacocloud.taco;
 
 public interface TacoRepository  {
 

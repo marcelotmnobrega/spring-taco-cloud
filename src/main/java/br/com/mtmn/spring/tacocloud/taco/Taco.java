@@ -1,7 +1,9 @@
-package br.com.mtmn.spring.tacocloud.core;
+package br.com.mtmn.spring.tacocloud.taco;
 
 import java.util.Date;
 import java.util.List;
+
+import br.com.mtmn.spring.tacocloud.ingredient.Ingredient;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

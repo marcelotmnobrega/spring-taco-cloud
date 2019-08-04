@@ -1,9 +1,10 @@
-package br.com.mtmn.spring.tacocloud.core;
+package br.com.mtmn.spring.tacocloud.order;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.mtmn.spring.tacocloud.taco.Taco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -13,14 +14,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Repository
-public class JdbcOrderRepository implements OrderRepository {
+public class OrderRepositoryJdbc implements OrderRepository {
 
     private SimpleJdbcInsert orderInserter;
     private SimpleJdbcInsert orderTacoInserter;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public JdbcOrderRepository(JdbcTemplate jdbc) {
+    public OrderRepositoryJdbc(JdbcTemplate jdbc) {
         this.orderInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order").usingGeneratedKeyColumns("id");
         this.orderTacoInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order_Tacos");
         this.objectMapper = new ObjectMapper();
