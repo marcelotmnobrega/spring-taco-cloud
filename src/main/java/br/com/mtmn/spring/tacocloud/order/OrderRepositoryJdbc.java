@@ -12,47 +12,49 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 @Repository
 public class OrderRepositoryJdbc implements OrderRepository {
 
-    private SimpleJdbcInsert orderInserter;
-    private SimpleJdbcInsert orderTacoInserter;
-    private ObjectMapper objectMapper;
+	private SimpleJdbcInsert orderInserter;
 
-    @Autowired
-    public OrderRepositoryJdbc(JdbcTemplate jdbc) {
-        this.orderInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order").usingGeneratedKeyColumns("id");
-        this.orderTacoInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order_Tacos");
-        this.objectMapper = new ObjectMapper();
-    }
+	private SimpleJdbcInsert orderTacoInserter;
 
-    @Override
-    public Order save(Order order) {
-        order.setPlacedAt(new Date());
-        long orderId = saveOrderDetails(order);
-        order.setId(orderId);
+	private ObjectMapper objectMapper;
 
-//        List<Taco> tacos = order.getTacos();
-//        for (Taco taco : tacos) {
-//            saveTacoToOrder(taco, orderId);
-//        }
+	@Autowired
+	public OrderRepositoryJdbc(JdbcTemplate jdbc) {
+		this.orderInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order").usingGeneratedKeyColumns("id");
+		this.orderTacoInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order_Tacos");
+		this.objectMapper = new ObjectMapper();
+	}
 
-        return order;
-    }
+	@Override
+	public Order save(Order order) {
+		order.setPlacedAt(new Date());
+		long orderId = saveOrderDetails(order);
+		order.setId(orderId);
 
-    private long saveOrderDetails(Order order) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> values = objectMapper.convertValue(order, Map.class);
-        values.put("placedAt", order.getPlacedAt());
-        long orderId = orderInserter.executeAndReturnKey(values).longValue();
-        return orderId;
-    }
+		// List<Taco> tacos = order.getTacos();
+		// for (Taco taco : tacos) {
+		// saveTacoToOrder(taco, orderId);
+		// }
 
-    private void saveTacoToOrder(Taco taco, long orderId) {
-        Map<String, Object> values = new HashMap<>();
-        values.put("tacoOrder", orderId);
-        values.put("taco", taco.getId());
-        orderTacoInserter.execute(values);
-    }
+		return order;
+	}
+
+	private long saveOrderDetails(Order order) {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> values = objectMapper.convertValue(order, Map.class);
+		values.put("placedAt", order.getPlacedAt());
+		long orderId = orderInserter.executeAndReturnKey(values).longValue();
+		return orderId;
+	}
+
+	private void saveTacoToOrder(Taco taco, long orderId) {
+		Map<String, Object> values = new HashMap<>();
+		values.put("tacoOrder", orderId);
+		values.put("taco", taco.getId());
+		orderTacoInserter.execute(values);
+	}
+
 }

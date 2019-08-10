@@ -1,7 +1,7 @@
 package br.com.mtmn.spring.tacocloud.taco;
 
-public interface TacoRepository  {
+public interface TacoRepository {
 
-    Taco save(Taco design);
+	Taco save(Taco design);
 
 }

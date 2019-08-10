@@ -18,27 +18,29 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TacoRepositoryJdbc implements TacoRepository {
 
-    private final JdbcTemplate jdbc;
+	private final JdbcTemplate jdbc;
 
-    @Override
-    public Taco save(Taco taco) {
-        long tacoId = saveTacoInfo(taco);
-        taco.setId(tacoId);
-        taco.getIngredients().forEach(ing -> saveIngredientToTaco(ing, tacoId));
-        return taco;
-    }
+	@Override
+	public Taco save(Taco taco) {
+		long tacoId = saveTacoInfo(taco);
+		taco.setId(tacoId);
+		taco.getIngredients().forEach(ing -> saveIngredientToTaco(ing, tacoId));
+		return taco;
+	}
 
-    private long saveTacoInfo(Taco taco) {
-        taco.setCreatedAt(new Date());
-        PreparedStatementCreator psc =
-                new PreparedStatementCreatorFactory("insert into Taco (name, createdAt) values (?, ?)", Types.VARCHAR, Types.TIMESTAMP)
-                        .newPreparedStatementCreator(Arrays.asList(taco.getName(), new Timestamp(taco.getCreatedAt().getTime())));
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbc.update(psc, keyHolder);
-        return keyHolder.getKey().longValue();
-    }
+	private long saveTacoInfo(Taco taco) {
+		taco.setCreatedAt(new Date());
+		PreparedStatementCreator psc = new PreparedStatementCreatorFactory(
+				"insert into Taco (name, createdAt) values (?, ?)", Types.VARCHAR, Types.TIMESTAMP)
+						.newPreparedStatementCreator(
+								Arrays.asList(taco.getName(), new Timestamp(taco.getCreatedAt().getTime())));
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbc.update(psc, keyHolder);
+		return keyHolder.getKey().longValue();
+	}
 
-    private void saveIngredientToTaco(Ingredient ingredient, long tacoId) {
-        jdbc.update("insert into Taco_Ingredients (taco, ingredient) values (?, ?)", tacoId, ingredient.getId());
-    }
+	private void saveIngredientToTaco(Ingredient ingredient, long tacoId) {
+		jdbc.update("insert into Taco_Ingredients (taco, ingredient) values (?, ?)", tacoId, ingredient.getId());
+	}
+
 }

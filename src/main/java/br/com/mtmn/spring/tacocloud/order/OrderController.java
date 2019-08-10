@@ -15,19 +15,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/orders")
 public class OrderController {
 
-    @GetMapping("/current")
-    public String orderForm(Model model) {
-        model.addAttribute("order", new Order());
-        return "orderForm";
-    }
+	@GetMapping("/current")
+	public String orderForm(Model model) {
+		model.addAttribute("order", new Order());
+		return "orderForm";
+	}
 
-    @PostMapping
-    public String processOrder(@Valid Order order, Errors errors) {
-        if (errors.hasErrors()) {
-            return "orderForm";
-        }
+	@PostMapping
+	public String processOrder(@Valid Order order, Errors errors) {
+		if (errors.hasErrors()) {
+			return "orderForm";
+		}
 
-        log.info("Order submitted: " + order);
-        return "redirect:/";
-    }
+		log.info("Order submitted: " + order);
+		return "redirect:/";
+	}
+
 }

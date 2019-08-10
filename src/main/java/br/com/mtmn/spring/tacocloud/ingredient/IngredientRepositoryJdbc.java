@@ -11,33 +11,27 @@ import java.sql.SQLException;
 @Repository
 public class IngredientRepositoryJdbc implements IngredientRepository {
 
-    private final JdbcTemplate jdbc;
+	private final JdbcTemplate jdbc;
 
-    @Override
-    public Iterable<Ingredient> findAll() {
-        return jdbc.query("select id, name, type from Ingredient",
-                this::mapRowToIngredient);
-    }
+	@Override
+	public Iterable<Ingredient> findAll() {
+		return jdbc.query("select id, name, type from Ingredient", this::mapRowToIngredient);
+	}
 
-    @Override
-    public Ingredient findOne(String id) {
-        return jdbc.queryForObject("select id, name, type from Ingredient where id=?",
-                this::mapRowToIngredient, id);
-    }
+	@Override
+	public Ingredient findOne(String id) {
+		return jdbc.queryForObject("select id, name, type from Ingredient where id=?", this::mapRowToIngredient, id);
+	}
 
-    private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {
-        return new Ingredient(
-                rs.getString("id"),
-                rs.getString("name"),
-                Ingredient.Type.valueOf(rs.getString("type")));
-    }
+	private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {
+		return new Ingredient(rs.getString("id"), rs.getString("name"), Ingredient.Type.valueOf(rs.getString("type")));
+	}
 
-    @Override
-    public Ingredient save(Ingredient ingredient) {
-        jdbc.update("insert into Ingredient (id, name, type) values (?, ?, ?)",
-                ingredient.getId(),
-                ingredient.getName(),
-                ingredient.getType().toString());
-        return ingredient;
-    }
+	@Override
+	public Ingredient save(Ingredient ingredient) {
+		jdbc.update("insert into Ingredient (id, name, type) values (?, ?, ?)", ingredient.getId(),
+				ingredient.getName(), ingredient.getType().toString());
+		return ingredient;
+	}
+
 }
