@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import br.com.mtmn.spring.tacocloud.taco.*;
-import br.com.mtmn.spring.tacocloud.ingredient.Ingredient;
 import br.com.mtmn.spring.tacocloud.ingredient.IngredientRepository;
+import br.com.mtmn.spring.tacocloud.ingredient.Ingredient;
 import br.com.mtmn.spring.tacocloud.order.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,6 @@ import javax.validation.Valid;
 public class DesignTacoController {
 
 	private final IngredientRepository ingredientRepository;
-
 	private final TacoRepository tacoRepository;
 
 	@ModelAttribute(name = "order")

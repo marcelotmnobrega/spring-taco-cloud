@@ -1,5 +1,6 @@
 package br.com.mtmn.spring.tacocloud.order;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -8,41 +9,58 @@ import br.com.mtmn.spring.tacocloud.taco.Taco;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
-public class Order {
+@Entity
+@Table(name = "Taco_Order")
+public class Order implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	private Date placedAt;
 
-	@NotBlank(message = "Name is required")
-	private String name;
+	@NotBlank(message="Delivery name is required")
+	private String deliveryName;
 
-	@NotBlank(message = "Street is required")
-	private String street;
+	@NotBlank(message="Street is required")
+	private String deliveryStreet;
 
-	@NotBlank(message = "City is required")
-	private String city;
+	@NotBlank(message="City is required")
+	private String deliveryCity;
 
-	@NotBlank(message = "State is required")
-	private String state;
+	@NotBlank(message="State is required")
+	private String deliveryState;
 
-	@NotBlank(message = "Zip code is required")
-	private String zip;
+	@NotBlank(message="Zip code is required")
+	private String deliveryZip;
 
-	@CreditCardNumber(message = "Not a valid credit card number")
+	@CreditCardNumber(message="Not a valid credit card number")
 	private String ccNumber;
 
-	@Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$", message = "Must be formatted MM/YY")
+	@Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
+			message="Must be formatted MM/YY")
 	private String ccExpiration;
 
-	@Digits(integer = 3, fraction = 0, message = "Invalid CVV")
+	@Digits(integer=3, fraction=0, message="Invalid CVV")
 	private String ccCVV;
 
+	@ManyToMany(targetEntity = Taco.class)
+	private List<Taco> tacos = new ArrayList<>();
+
 	public void addDesign(Taco saved) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		this.tacos.add(saved);
 	}
 
+	@PrePersist
+	void placedAt() {
+		this.placedAt = new Date();
+	}
 }
